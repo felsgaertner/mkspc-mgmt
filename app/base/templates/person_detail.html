@@ -1,0 +1,89 @@
+{% extends 'generic/detail.html' %}
+{% load static %}
+{% load tabular_list %}
+{% load utils %}
+{% load url_utils %}
+{% load color_price %}
+
+{% block toolbar_left %}
+{% endblock %}
+
+{% block content %}
+  {% query_url prev=request.path prevname=object|truncatechars:40 as back_query %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 p-0">
+        <div class="mb-3">
+          <h6 class="d-inline-block">Attribute:</h6>
+          {% for attr in object.attributes|dictsort:2 %}
+          <a class="badge border1" href="{% url 'trait-mapping:detail' attr.0 %}">{{ attr.2 }}</a>
+          {% endfor %}
+          <a class="badge badge-secondary" href="{% url 'trait-mapping:create' %}{{ back_query }}&user={{ object.pk }}" title="Attribut hinzufügen"><i class="fas fa-plus"></i></a>
+        </div>
+
+        {% include 'widgets/alerts.html' %}
+        {% include 'widgets/note-modal.html' %}
+        
+        <div class="h-with-action">
+          <h2>Stammdaten:</h2>
+          <div>
+            <a title="{{model_verbose_name}} bearbeiten" class="btn btn-sm btn-outline-primary" href="{% url 'person:update' object.pk %}{{ back_query }}"><i class="fas fa-edit"></i></a>
+            <a title="{{model_verbose_name}} löschen" class="btn btn-sm btn-outline-danger" href="{% url 'person:delete' object.pk %}{{ back_query }}"><i class="far fa-trash-alt"></i></a>
+            <a title="Notiz hinzufügen" class="btn btn-sm btn-outline-warning" onclick="showNoteModal(true)"><i class="far fa-message"></i> Notiz</a>
+          </div>
+        </div>
+        {{ block.super }}
+
+        <div class="h-with-action">
+          <h2>Einweisungen:</h2>
+          <a class="btn btn-sm btn-outline-primary" href="{% url 'course-visit:create' %}{{ back_query }}&user={{ object.pk }}" title="Neue Einweisung hinzufügen"><i class="fas fa-plus"></i></a>
+        </div>
+        {% tabular_list objects=course_list.objects views=course_list.views columns=course_list.columns render_options=course_list.render %}
+
+        <div class="h-with-action">
+          <h2>Buchungen:</h2>
+          <a class="btn btn-sm btn-outline-primary" href="{% url 'booking:create' %}{{ back_query }}&user={{ object.pk }}" title="Neue Buchung hinzufügen"><i class="fas fa-plus"></i></a>
+        </div>
+        {% tabular_list objects=bookings.objects views=bookings.views columns=bookings.columns render_options=bookings.render %}
+      </div>
+
+      <div id="sidebar-detail" class="col-md-4">
+        {% include 'widgets/checkin-status.html' with user=object %}
+        
+        <div class="text-center">
+          <span class="font-dosis">Kontostand</span>
+          <div class="account-balance mb-3 {% color_price object.account.balance %}">
+            {{ object.account.balance }}€
+          </div>
+          <form method="get" action="{% url 'transaction:create' %}" onsubmit>
+            <div class="input-group">
+              <input name="amount" class="form-control text-right" type="number" min="0" step="0.5" value="{{ object.account.balance|invert|min:object.account.balance|default:10|floatformat:'2u' }}">
+              <div class="input-group-append">
+                <span class="input-group-text">€</span>
+              </div>
+            </div>
+            <input type="hidden" name="account" value="{{ object.account.pk }}">
+            <div class="btn-group btn-block mt-2">
+              <button name="_type" class="btn btn-outline-success" value="deposit-plus">Einzahlen</button>
+              <button name="_type" class="btn btn-outline-danger" value="deposit-minus">Auszahlen</button>
+            </div>
+          </form>
+        </div>
+
+        <div>
+          <span class="font-dosis text-center">Transaktionen:</span>
+          {% tabular_list objects=transaction_list.objects views=transaction_list.views columns=transaction_list.columns render_options=transaction_list.render is_small=True hide_thead=True %}
+          {% if transaction_list.objects|length > 0 %}
+          <div class="text-center">
+            <a href="{% url 'transaction:list' %}{{ back_query }}&user={{ object.pk }}">Alle anzeigen</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block scripts %}
+  <script src="{% static 'js/person-detail.js' %}"></script>
+{% endblock scripts %}

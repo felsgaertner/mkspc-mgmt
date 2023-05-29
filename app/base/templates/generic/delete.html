@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load url_utils %}
+
+{% block content %}
+  <form method="post">{% csrf_token %}
+    <p>Bist du dir sicher dass du {{ model_verbose_name }} <b>"{{ object }}"</b> löschen möchtest?</p>
+    <a class="btn btn-primary" href="{% back_url %}">Abbrechen</a>
+    <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i> {{submit_label|default:'Weg damit!'}}</button>
+  </form>
+{% endblock %}

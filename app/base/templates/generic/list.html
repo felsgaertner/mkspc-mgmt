@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load tabular_list %}
+{% load url_utils %}
+{% load utils %}
+
+{% block title %}
+{% if active_search_query %}Suchergebnisse – {% endif %}{{ block.super }}
+{% endblock %}
+
+{% block page_title %}
+  {% if active_search_query %}
+    {% include 'widgets/title-with-icon.html' with icon='search' title=active_search_query|format:'Suchergebnisse für "{}"' %}
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
+
+{% block toolbar_right %}
+  {% if views.create %}
+  <a class="btn btn-primary" href="{% url views.create %}">
+    <i class="fas fa-plus"></i> {{ model_verbose_name }} hinzufügen</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% include 'widgets/table_filter.html' %}
+  {% tabular_list objects=object_list views=views columns=list_columns render_options=list_render %}
+  <div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="{% query_url page=None %}">&laquo; Erste Seite</a> |
+        <a href="{% query_url page=page_obj.previous_page_number %}">vorherige Seite</a>
+      {% endif %}
+
+      <span class="current">
+      Seite {{ page_obj.number|default:1 }} von {{ page_obj.paginator.num_pages|default:1 }}.
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="{% query_url page=page_obj.next_page_number %}">nächste Seite</a> |
+        <a href="{% query_url page=page_obj.paginator.num_pages %}">Letzte Seite &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+{% endblock %}

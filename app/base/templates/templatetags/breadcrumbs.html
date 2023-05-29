@@ -1,0 +1,12 @@
+<div id="breadcrumbs">
+  <a href="{% url 'index' %}">Home</a>
+  {% if breadcrumbs %}
+    {% for key, url in breadcrumbs %}
+      {% if url is None %}
+        &rsaquo; <span>{{ key }}</span>
+      {% else %}
+        &rsaquo; <a href="{{ url }}">{{ key }}</a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</div>

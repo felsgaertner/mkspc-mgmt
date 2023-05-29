@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load url_utils %}
+
+{% block toolbar_left %}
+  {% if views.update %}
+  <a class="btn btn-sm btn-secondary" href="{% url views.update object.pk %}{% query_url prev=request.path %}">
+    <i class="fas fa-edit"></i> Bearbeiten</a>
+  {% endif %}
+  {% if views.delete %}
+  <a class="btn btn-sm btn-secondary" href="{% url views.delete object.pk %}{% query_url prev=request.path %}">
+    <i class="fas fa-trash-alt"></i> Löschen</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% include 'templatetags/detail_table.html' %}
+{% endblock %}

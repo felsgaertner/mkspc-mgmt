@@ -1,0 +1,34 @@
+[
+    {
+        "model": "base.trait",
+        "fields": {
+            "key": "member",
+            "label": "Mitglied",
+            "description": "Ist Vereinsmitglied der Offenen Werkstatt e.V."
+        }
+    },
+    {
+        "model": "base.trait",
+        "fields": {
+            "key": "abo",
+            "label": "Abo (25€)",
+            "description": "Darf alle elektrischen Geräte kostenfrei nutzen."
+        }
+    },
+    {
+        "model": "base.trait",
+        "fields": {
+            "key": "bckspc",
+            "label": "Backspace",
+            "description": "Ist Backspace Mitglied (Anschlussmitgliedschaft)"
+        }
+    },
+    {
+        "model": "base.trait",
+        "fields": {
+            "key": "gesell",
+            "label": "Gesellenbrief",
+            "description": "Hat Gesellenbrief vorgezeigt und darf die großen Maschinen eigenhändig nutzen."
+        }
+    }
+]

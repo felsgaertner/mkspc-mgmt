@@ -1,0 +1,8 @@
+<div>
+<input type="date" id="{{ widget.attrs.id }}_day" name="{{ widget.name }}"{% if widget.value %} value="{{ widget.value|date:'Y-m-d' }}"{% endif %}>
+<input type="time" id="{{ widget.attrs.id }}_time" name="{{ widget.name }}"{% if widget.value %} value="{{ widget.value|date:'H:i' }}"{% endif %}>
+<button type="button" class="btn btn-outline-primary" onclick="dateTimeSetNow('{{ widget.attrs.id }}')" title="Aktuelles Datum setzen">Jetzt</button>
+{% if not widget.required %}
+<button type="button" class="btn btn-outline-secondary" onclick="dateTimeReset('{{ widget.attrs.id }}')" title="Datum zurücksetzen"><i class="far fa-trash-alt"></i></button>
+{% endif %}
+</div>

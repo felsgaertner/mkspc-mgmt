@@ -1,0 +1,16 @@
+<div id="note-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="{% url 'update-note' object.pk %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <textarea name="text" rows="4" class="form-control" placeholder="(keine Notiz)" autocomplete="off">{{ object.note }}</textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="showNoteModal(false)">Abbrechen</button>
+          <button type="submit" class="btn btn-primary">Notiz speichern</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

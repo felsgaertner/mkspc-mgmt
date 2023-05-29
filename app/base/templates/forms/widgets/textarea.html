@@ -1,0 +1,3 @@
+{% load utils %}
+<textarea name="{{ widget.name }}" rows="{{widget.value|count_lines|min:4|max:10}}"{% include "django/forms/widgets/attrs.html" %}>
+{% if widget.value %}{{ widget.value }}{% endif %}</textarea>

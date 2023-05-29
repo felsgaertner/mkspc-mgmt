@@ -1,0 +1,15 @@
+{% load field_utils %}{# get_fields, field_value #}
+{% load utils %}{# get_item #}
+
+<table class="table detail-table">
+  <tbody>
+    {% for field in object|get_fields:detail_fields %}
+    <tr>
+      {% with RENDER=detail_render|get_item:field.name %}
+      <th scope="row">{% include 'fragment/field_title.html' with field=field render_options=RENDER %}</th>
+      <td{% if field.get_internal_type == 'TextField' %} class="raw-text"{%endif%}>{% include 'fragment/field_value.html' with obj=object|field_value:field.name render_options=RENDER clickable_refs=True %}</td>
+      {% endwith %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

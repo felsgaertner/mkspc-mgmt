@@ -1,0 +1,27 @@
+{% if object.note %}
+  <div class="alert alert-warning d-flex">
+    <span><i class="far fa-message"></i></span>
+    <span class="raw-text ml-2">{{ object.note }}</span>
+  </div>
+{% endif %}
+{% if object.agreed_to_terms_of_service is False %}
+  <div class="alert alert-warning">
+    <span>Hat noch nicht in die Nutzungsbedingungen eingewilligt!</span>
+  </div>
+{% endif %}
+{% if object.identified is False %}
+  <div class="alert alert-warning">
+    <span>Hat noch kein Ausweisdokument vorgelegt!</span>
+  </div>
+{% endif %}
+{% if object.missing_courses|length > 0 %}
+  <div class="alert alert-warning">
+    <span>Es fehlen noch folgende Einweisungen:</span>
+    <hr>
+    <ul>
+      {% for course in object.missing_courses %}
+      <li>{{ course.title }} <a href="{% url 'course-visit:create' %}?user={{ object.pk }}&course={{ course.pk }}&prev={{request.path}}">(hinzufügen)</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

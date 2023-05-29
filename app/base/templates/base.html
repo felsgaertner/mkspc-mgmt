@@ -1,0 +1,82 @@
+{% load static %}
+{% load field_utils %}
+{% load breadcrumbs %}
+{% load url_utils %}
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap4.6.2/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome6.4.0/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    {% comment %} <script src="{% static 'jquery3.6.4/js/jquery.min.js' %}"></script> {% endcomment %}
+    {% comment %} <script src="{% static 'bootstrap4.6.2/js/bootstrap.min.js' %}"></script> {% endcomment %}
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/onload.js' %}" defer></script>
+    <title>{% block title %}{{ title }}{% endblock title %}</title>
+</head>
+<body>
+  <header>
+    <nav id="main-nav" class="navbar navbar-expand-lg navbar-light">
+      <a id="navbar-toggler" onclick="toggleMenu('sidebar-wrapper')">
+        <span class="navbar-toggler-icon"></span>
+      </a>
+      <a class="navbar-brand d-none d-md-block" href="{% url 'index' %}">
+        <img id="logo" src="{% static 'img/logo.png' %}" alt="Werkstattmanagement">
+      </a>
+      <form id="global-search" action="{% url 'person:list' %}" method="get">
+        <input name="q" value="{{ request.GET.q }}">
+        <button type="submit" class="btn bg-owba"><i class="fas fa-search"></i></button>
+      </form>
+      <div class="avatar">
+        <button type="button" data-toggle="dropdown" onclick="toggleMenu('profileMenu')">
+          <i class="far fa-user fa-lg"></i>
+        </button>
+        <div id="profileMenu" class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="d-flex" id="wrapper">
+    <div id="sidebar-wrapper" class="border-right bg-dim">
+      <div class="list-group list-group-flush">
+        <a href="{% url 'booking:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-clock"></i> Zeitbuchungen</a>
+        <a href="{% url 'person:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-users"></i> Werkstattnutzer:innen</a>
+        <a href="{% url 'course:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-graduation-cap"></i> Einweisungen</a>
+        <a href="{% url 'transaction:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-euro-sign"></i> Transaktionen</a>
+        <a href="{% url 'trait:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-tags"></i> Attribute</a>
+        <a href="{% url 'settings' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-sliders-h"></i> Einstellungen</a>
+      </div>
+    </div>
+    <div id="page-content-wrapper" class="container-fluid position-relative">
+      {% breadcrumbs %}
+      {% block page_title %}
+      {% include 'widgets/title-with-icon.html' with icon=icon title=title %}
+      {% endblock page_title %}
+      <div class="toolbar">
+        {% block toolbar_left %}
+        {% endblock toolbar_left %}
+        <span style="flex-grow: 1"></span>
+        {% block toolbar_right %}
+          {% for item in toolbar_buttons %}
+            <a href="{% url_builder item %}" class="btn btn-primary">
+              {% if item.icon %}
+              <i class="fas fa-{{ item.icon }}"></i>
+              {% endif %}
+              {{ item.label }}
+            </a>
+          {% endfor %}
+        {% endblock %}
+      </div>
+      <div id="main-content">
+        {% block content %}{% endblock content %}
+      </div>
+    </div>
+  </div>
+  {% block scripts %}
+  {% endblock scripts %}
+</body>
+</html>

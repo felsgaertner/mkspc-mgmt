@@ -1,0 +1,31 @@
+[
+    {
+        "model": "base.bookingtype",
+        "fields": {
+            "key": "basic",
+            "label": "Werkstattzeit - BASIC",
+            "price": 2.00,
+            "interval": 60,
+            "is_checkin": true
+        }
+    },
+    {
+        "model": "base.bookingtype",
+        "fields": {
+            "key": "plus",
+            "label": "Werkstattzeit - PLUS",
+            "price": 3.00,
+            "interval": 60,
+            "is_checkin": true
+        }
+    },
+    {
+        "model": "base.bookingtype",
+        "fields": {
+            "key": "machine",
+            "label": "Maschinenzeit",
+            "price": 0.50,
+            "interval": 5
+        }
+    }
+]

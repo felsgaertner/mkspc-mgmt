@@ -1,0 +1,76 @@
+{% load utils %}{# format #}
+{% load field_utils %}{# field_value, col_render_width, col_render_class #}
+{% load url_utils %}{# query_url #}
+
+{% if objects|length > 0 %}
+  <table class="table{% if is_small %} table-sm{% endif %}" {% if views.detail %}data-onclick="window.location.href='{% url views.detail 0 %}'.replace('0', row.dataset.pk)"{% endif %}>
+    <colgroup>
+      {% for column in columns %}
+        <col {% if column.render_options.width %}style="width: {{ column.render_options|col_render_width }}"{% endif %}>
+      {% endfor %}
+      {% if views.update or views.delete %}
+        <col style="width: 3.5rem">
+      {% endif %}
+    </colgroup>
+    {% if not hide_thead %}
+    <thead>
+      <tr>
+      {% for column in columns %}
+        <th scope="col"{% if column.render_options.class %} class="{{column.render_options.class}}"{% endif %}>
+          {% include 'fragment/field_title.html' with field=column.field render_options=column.render_options %}
+        </th>
+      {% endfor %}
+      {% if views.update or views.delete %}
+        <th scope="col"></th>
+      {% endif %}
+      </tr>
+    </thead>
+    {% endif %}
+    <tbody>
+    {% for object in objects %}
+      <tr data-pk="{{ object.pk }}">
+        {% for column in columns %}
+          {% with X=object|field_value:column.name %}
+            <td class="{{ X|col_render_class:column.render_options }}">
+              {% include 'fragment/field_value.html' with obj=X render_options=column.render_options %}
+            </td>
+          {% endwith %}
+        {% endfor %}
+        {% if views.update or views.delete %}
+          <td class="table-actions">{% spaceless %}
+            {% if views.update %}
+              <a title="Bearbeiten" href="{% url views.update object.pk %}{% query_url prev=request.path prevname=prevname %}">
+                <i class="far fa-edit"></i>
+              </a>
+            {% endif %}
+            {% if views.delete %}
+              <a title="Löschen" href="{% url views.delete object.pk %}{% query_url prev=request.path prevname=prevname %}">
+                <i class="far fa-trash-alt"></i>
+              </a>
+            {% endif %}
+          {% endspaceless %}</td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% if request.GET.selected %}
+    <script>
+    highlight(document.querySelector('[data-pk="{{request.GET.selected}}"]'));
+    </script>
+  {% endif %}
+{% else %}
+  <table class="table{% if is_small %} table-sm{% endif %}">
+    <tbody>
+      <tr class="text-center">
+        <td>
+          {% if active_search_query %}
+            Keine Einträge gefunden für "{{active_search_query}}".
+          {% else %}
+            Bisher keine Einträge.
+          {% endif %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+{% endif %}

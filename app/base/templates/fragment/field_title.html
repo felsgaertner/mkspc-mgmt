@@ -1,0 +1,13 @@
+{% spaceless %}
+{% load utils %}{# model_verbose_name #}
+
+{% if render_options.verbose_name %}
+  {{ render_options.verbose_name }}
+{% elif field.verbose_name %}
+  {{ field.verbose_name }}
+{% elif field.one_to_one or field.many_to_one %}
+  {{ field.remote_field|model_verbose_name }}
+{% else %}
+  {{ field }}
+{% endif %}
+{% endspaceless %}

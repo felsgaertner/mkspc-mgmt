@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load tabular_list %}
+
+{% block content %}
+<h2>Buchungstypen</h2>
+{% tabular_list objects=booking_types.objects views=booking_types.views columns=booking_types.columns render_options=booking_types.render %}
+
+{% endblock content %}

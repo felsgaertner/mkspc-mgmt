@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'Dosis';
+  src: url(/static/fonts/Dosis.ttf);
+}
+
+h1 {
+  font-family: 'Dosis', sans-serif;
+  color: #495057;
+}
+
+body {
+  background: url("../img/bg.jpg") center bottom / cover;
+  height: 100vh;
+}
+
+.login-form {
+  background-color: #fff;
+  display: inline-block;
+  padding: 2em;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+}
+
+.login-form input {
+  width: 100%;
+}

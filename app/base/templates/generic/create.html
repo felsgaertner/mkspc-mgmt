@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load url_utils %}{# back_url #}
+
+{% block content %}
+  <form method="post" class="create-form">{% csrf_token %}
+    {{ form.as_div }}
+    <a class="btn btn-secondary" href="{% back_url %}">Abbrechen</a>
+    <button type="submit" class="btn btn-primary">{{submit_label}}</button>
+  </form>
+{% endblock %}
+
+{% block scripts %}
+  <link rel="stylesheet" type="text/css" href="{% static 'select2-4.0.13/css/select2.min.css' %}">
+  <script src="{% static 'jquery3.6.4/js/jquery.min.js' %}"></script>
+  <script src="{% static 'select2-4.0.13/js/select2.min.js' %}"></script>
+  <script src="{% static 'js/forms.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap4.6.2/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+  <title>Login</title>
+</head>
+<body>
+  <div class="login-form w-md-50">
+    {% if form.errors %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Your username and password didn't match. Please try again.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
+
+    {% if next %}
+      {% if user.is_authenticated %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          Your account doesn't have access to this page. To proceed,
+          please login with an account that has access.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% else %}
+        <p>Log dich ein um auf die Seite zuzugreifen.</p>
+      {% endif %}
+    {% endif %}
+
+    <h1>Bitte log dich ein.</h1>
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <p>
+      {{ form.username.label_tag }}
+      {{ form.username }}
+    </p>
+    <p>
+      {{ form.password.label_tag }}
+      {{ form.password }}
+    </p>
+
+    <input type="submit" class="btn btn-primary" value="Einloggen">
+    {% if next %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% else %}
+    <input type="hidden" name="next" value="/">
+    {% endif %}
+    </form>
+  </div>
+</body>

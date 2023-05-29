@@ -1,0 +1,11 @@
+{% extends 'generic/list.html' %}
+{% load tabular_list %}
+
+{% block content %}
+{% if open_bookings %}
+  <h2>Offene {{ title }}</h2>
+  {% tabular_list objects=open_bookings views=views columns=list_columns render_options=list_render %}
+  <h2>Alle {{ title }}</h2>
+{% endif %}
+  {{ block.super }}
+{% endblock content %}

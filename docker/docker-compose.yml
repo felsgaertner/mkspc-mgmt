@@ -1,0 +1,28 @@
+version: '3'
+services:
+  web:
+    container_name: web
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - django-static:/var/www/html/static
+    working_dir: /etc/nginx
+    links:
+      - app
+  app:
+    container_name: app
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY
+      ALLOWED_HOSTS: $ALLOWED_HOSTS
+    volumes:
+      - django-static:/var/www/html/static
+    working_dir: /django_project
+
+volumes:
+  django-static:

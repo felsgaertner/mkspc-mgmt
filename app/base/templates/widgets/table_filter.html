@@ -1,0 +1,13 @@
+{% load utils %}
+{% load url_utils %}
+
+{% if list_filter.user and request.GET.user %}
+{% lookup_user request.GET.user as usr %}
+{% elif list_filter.teacher and request.GET.teacher %}
+{% lookup_user request.GET.teacher as usr %}
+{% endif %}
+
+{% if usr %}
+  <h4>Filter: <a href="{{ usr.get_absolute_url }}">{{ usr }}</a></h4>
+  Filter aufheben: <a href=".">alle anzeigen</a>
+{% endif %}

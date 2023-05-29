@@ -1,0 +1,14 @@
+{% spaceless %}
+{% load utils %}{# format #}
+{% load field_utils %}{# ref_link #}
+
+{% if render_options.date_format %}
+  {{ obj|date:render_options.date_format|default:'–' }}
+{% elif render_options.format %}
+  {{ obj|format:render_options.format }}
+{% elif clickable_refs %}
+  {{ obj|ref_link:'reflink' }}
+{% else %}
+  {{ obj }}
+{% endif %}
+{% endspaceless %}{% if render_options.is_price %}&nbsp;€{% endif %}

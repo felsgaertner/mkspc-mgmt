@@ -1,0 +1,359 @@
+@font-face {
+  font-family: 'Dosis';
+  src: url(/static/fonts/Dosis.ttf);
+}
+
+.font-dosis {
+  font-family: 'Dosis', sans-serif;
+}
+
+/*
+ * Colors
+ */
+
+:root {
+  --bg-subtle: #fff;
+  --bg-subtle-hover: #ededed;
+  --bg-dim: #f8f9fa;
+  --bg-dim-hover: #dae0e5;
+  --bg-owba: #e94190;
+  --bg-owba-hover: #cc287a;
+  --fg-subtle: #495057;
+}
+
+.bg-subtle {
+  background-color: var(--bg-subtle);
+}
+.bg-subtle:hover {
+  background-color: var(--bg-subtle-hover);
+}
+.bg-dim {
+  background-color: var(--bg-dim);
+}
+.btn.bg-dim:hover, .list-group-item-action.bg-dim:hover {
+  background-color: var(--bg-dim-hover);
+}
+.bg-owba {
+  color: #fff;
+  background-color: var(--bg-owba);
+}
+.bg-owba:hover {
+  color: #e8e8e8;
+  background-color: var(--bg-owba-hover);
+}
+
+/* 
+ * Layout
+ */
+h1, h2, h3, h4 {
+  font-family: 'Dosis', sans-serif;
+  color: var(--fg-subtle);
+}
+
+header {
+  height: 4rem;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 4px -4px rgba(0, 0, 0, .2);
+  z-index: 99;
+}
+
+#main-nav {
+  display: flex;
+}
+
+#navbar-toggler {
+  display: none;
+  margin-right: 1em;
+  cursor: pointer;
+}
+
+#logo {
+  height: 2em
+}
+
+#global-search {
+  flex-grow: 1;
+  display: flex;
+}
+
+#global-search input {
+  flex-grow: 1;
+  background-color: #ededed;
+  border: none;
+  border-radius: 5px 0 0 5px;
+  padding-left: .8em;
+}
+
+#global-search .btn {
+  border-radius: 0 5px 5px 0;
+}
+
+#breadcrumbs {
+  font-family: 'Dosis', sans-serif;
+  margin: 1rem 0 1rem 0;
+}
+
+#breadcrumbs a, #breadcrumbs span {
+  display: inline-block;
+  text-decoration: none;
+  padding: .3rem .5rem;
+  margin: 4px 0;
+  border-radius: .2em;
+  background-color: #EEE;
+  color: #000;
+  transition: .5s;
+}
+
+#breadcrumbs a:hover {
+  background-color: #DDD;
+  color: #000;
+  text-decoration: none;
+}
+
+#sidebar-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+#checkin-timer {
+  font: 2rem 'Dosis', sans-serif;
+}
+.checkin-title {
+  font: 500 1.5rem 'Dosis', sans-serif;
+  text-align: center;
+}
+.account-balance {
+  font: 3em 'Dosis', sans-serif;
+}
+
+table th {
+  font-size: .8em;
+  background-color: var(--bg-dim);
+}
+
+thead>tr {
+  border: 1px solid #DDD;
+  position: sticky;
+  top: 4rem;
+  z-index: 98;
+}
+
+/* .detail-table {
+  width: max-content;
+  max-width: 100%;
+} */
+.detail-table th {
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.detail-table td {
+  width: 100%;
+}
+
+.raw-text {
+  white-space: pre-line;
+}
+
+tbody>tr {
+  border: 1px solid #DDD;
+}
+
+td.table-actions {
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+td.table-actions a {
+  padding: .25rem;
+  transition: .3s;
+  color: #0002;
+}
+tbody>tr:hover td.table-actions a {
+  color: #0006;
+}
+td.table-actions a:hover {
+  color: #000B !important;
+}
+/* .table-actions a:not(:first-child) {
+  margin-left: .4rem;
+} */
+
+.table-sm tbody>tr {
+  border: unset !important;
+}
+
+table.clickable tbody>tr {
+  cursor: pointer;
+}
+table.clickable tbody>tr:hover {
+  background-color: var(--bg-subtle-hover);
+}
+
+.h1-w-icon {
+  display: flex;
+  gap: .3em;
+  align-items: baseline;
+  color: var(--fg-subtle);
+  font-size: 2.5rem;
+}
+.h1-w-icon+.h1-w-icon {
+  font-size: 2rem;
+}
+.h1-w-icon>h1 {
+  font-size: unset;
+}
+
+.h-with-action {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nowrap {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.toolbar {
+  display: flex;
+  margin-bottom: .8em;
+  align-items: center;
+  gap: .5rem;
+}
+
+.border1 {
+  border: 1px solid
+}
+.font-sm {
+  font-size: 90%
+}
+
+.avatar {
+  height: 3em;
+  width: 3em;
+  margin-left: 2em;
+  position: relative;
+}
+
+.avatar button {
+  height: 100%;
+  width: 100%;
+  background-color: #e94190;
+  color: #fff;
+  border-radius: 50%;
+  border: none;
+}
+
+.avatar button:hover {
+  color: #e8e8e8;
+}
+
+.col {
+  hyphens: auto;
+}
+
+.text-red {
+  color: #df2752;
+}
+.text-green {
+  color: #23be58;
+}
+
+#profileMenu {
+  position: absolute;
+  right: 0;
+  top: 3rem;
+}
+
+#wrapper {
+  overflow: visible;
+  position: relative;
+}
+
+#sidebar-wrapper {
+  font-family: 'Dosis', sans-serif;
+  font-size: 1.2rem;
+  -webkit-transition: margin .25s ease-out;
+  -moz-transition: margin .25s ease-out;
+  -o-transition: margin .25s ease-out;
+  transition: margin .25s ease-out;
+  position: sticky;
+  top: 4rem;
+  height: calc(100vh - 4rem);
+}
+
+#sidebar-wrapper .list-group {
+  width: max-content;
+}
+
+#sidebar-wrapper i {
+  width: 2rem;
+  text-align: center;
+}
+
+#page-content-wrapper {
+  margin-bottom: 15px;
+}
+
+.table-toolbar {
+  margin-bottom: 1rem;
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, .6);
+}
+
+.create-form {
+  max-width: 600px;
+}
+.create-form input, .create-form select, .create-form textarea {
+  width: 100%;
+}
+.create-form input[type="checkbox"] {
+  margin: 0 .5em;
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: text-bottom;
+}
+.create-form input[type="date"],
+.create-form input[type="time"] {
+  width: unset;
+  padding: .3rem .75rem;
+  vertical-align: middle;
+}
+.create-form>div {
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  #page-content-wrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  #sidebar-wrapper:not(.show) {
+    display: none;
+  }
+
+  #navbar-toggler {
+    display: block;
+  }
+}
+
+.fw-col {
+  flex: unset
+}
+
+/* Disable number up-down arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
+}
+input[type=number] {
+  appearance: textfield;
+}
