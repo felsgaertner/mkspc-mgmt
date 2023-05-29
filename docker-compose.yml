@@ -2,27 +2,27 @@ version: '3'
 services:
   web:
     container_name: web
-    build:
-      context: nginx
-      dockerfile: Dockerfile
+    build: ./docker/web/Dockerfile
+    working_dir: /etc/nginx
     ports:
       - 80:80
     volumes:
       - django-static:/var/www/html/static
-    working_dir: /etc/nginx
     links:
       - app
+    restart: "on-failure"
+
   app:
     container_name: app
-    build:
-      context: ..
-      dockerfile: Dockerfile
+    build: ./Dockerfile
+    working_dir: /django_project
     environment:
       DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY
       ALLOWED_HOSTS: $ALLOWED_HOSTS
     volumes:
       - django-static:/var/www/html/static
-    working_dir: /django_project
+      - ./data:/django_project/data:rw
+    restart: "on-failure"
 
 volumes:
   django-static:
