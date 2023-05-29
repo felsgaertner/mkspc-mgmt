@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     container_name: web
-    build: ./docker/web/Dockerfile
+    build: ./docker/web
     working_dir: /etc/nginx
     ports:
       - 80:80
@@ -14,7 +14,7 @@ services:
 
   app:
     container_name: app
-    build: ./Dockerfile
+    build: .
     working_dir: /django_project
     environment:
       DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY

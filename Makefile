@@ -7,9 +7,7 @@ help:
 
 .PHONY: init
 init:
-	python3 manage.py migrate
-	python3 manage.py loaddata traits.json booking_types.json
-	python3 manage.py createsuperuser
+	./scripts/on-init.sh
 
 .PHONY: get_columns
 get_columns:
