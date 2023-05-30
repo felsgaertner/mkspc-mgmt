@@ -11,7 +11,7 @@ services:
       - django-static:/var/www/html/static
     links:
       - app
-    restart: "on-failure"
+    restart: unless-stopped
 
   app:
     container_name: app
@@ -25,7 +25,7 @@ services:
     volumes:
       - django-static:/var/www/html/static
       - ./data:/django_project/data:rw
-    restart: "on-failure"
+    restart: unless-stopped
 
 volumes:
   django-static:
