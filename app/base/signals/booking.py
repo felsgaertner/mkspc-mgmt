@@ -14,7 +14,7 @@ def booking_post_save(sender, instance: Booking, created: bool, **kwargs):
     transaction = Transaction.objects.filter(booking=instance).first()
     if transaction:
         if with_transaction:
-            transaction.amount = amount
+            transaction.amount = -amount
             transaction.description = description
             transaction.save()
         else:
@@ -23,7 +23,7 @@ def booking_post_save(sender, instance: Booking, created: bool, **kwargs):
     elif with_transaction:
         Transaction.objects.create(
             account=instance.user.account,
-            amount=amount,
+            amount=-amount,
             description=description,
             booking=instance,
         )
