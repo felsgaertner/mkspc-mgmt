@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from django.db.models import OuterRef
     from app.base.models.person import Person
     from app.base.models.booking_type import BookingType
+    from datetime import timedelta
 
 
 class Booking(models.Model):
@@ -30,7 +31,7 @@ class Booking(models.Model):
         return reverse('booking:detail', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return 'Buchung von {} am {}: {}-{} Uhr'.format(
+        return 'Buchung von {} am {} von {}-{} Uhr'.format(
             self.user,
             self.begin_time.strftime('%d.%m.%Y'),
             self.begin_time.strftime('%H:%M'),
@@ -39,7 +40,8 @@ class Booking(models.Model):
     @property
     def duration(self) -> 'int|None':
         if self.end_time:
-            return round((self.end_time - self.begin_time).seconds / 60)
+            diff = self.end_time - self.begin_time  # type: timedelta
+            return round(diff.total_seconds() / 60)
         return None
 
     @property
