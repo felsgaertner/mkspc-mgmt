@@ -5,8 +5,8 @@ from django.urls import include, path
 from django.views.generic import RedirectView
 
 from app.base.views.settings import SettingsView
-from app.base.views.toggle_checkin import ToggleCheckinView
-from app.base.views.update_note import UpdateNoteView
+from app.base.views.trigger.toggle_checkin import ToggleCheckinView
+from app.base.views.trigger.update_note import UpdateNoteView
 
 
 urlpatterns = [
