@@ -34,21 +34,22 @@
         <button type="button" data-toggle="dropdown" onclick="toggleMenu('profileMenu')">
           <i class="far fa-user fa-lg"></i>
         </button>
-        <div id="profileMenu" class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        <div id="profileMenu" class="dropdown-menu dropdown-menu-right icon-list">
+          <a class="dropdown-item" href="{% url 'dashboard' %}"><i class="fas fa-chart-line"></i> Dashboard</a>
+          <a class="dropdown-item" href="{% url 'settings' %}"><i class="fas fa-sliders-h"></i> Einstellungen</a>
+          <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
         </div>
       </div>
     </nav>
   </header>
   <div class="d-flex" id="wrapper">
     <div id="sidebar-wrapper" class="border-right bg-dim">
-      <div class="list-group list-group-flush">
+      <div class="icon-list list-group list-group-flush">
         <a href="{% url 'booking:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-clock"></i> Zeitbuchungen</a>
         <a href="{% url 'person:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-users"></i> Werkstattnutzer:innen</a>
         <a href="{% url 'course:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-graduation-cap"></i> Einweisungen</a>
         <a href="{% url 'transaction:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-euro-sign"></i> Transaktionen</a>
         <a href="{% url 'trait:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-tags"></i> Attribute</a>
-        <a href="{% url 'settings' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-sliders-h"></i> Einstellungen</a>
       </div>
     </div>
     <div id="page-content-wrapper" class="container-fluid position-relative">

@@ -297,8 +297,8 @@ table.clickable tbody>tr:hover {
   width: max-content;
 }
 
-#sidebar-wrapper i {
-  width: 2rem;
+.icon-list i {
+  width: 1.7em;
   text-align: center;
 }
 
