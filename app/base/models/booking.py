@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from django.forms.utils import to_current_timezone
 from django.urls import reverse
 from django.utils import timezone
 
@@ -31,11 +32,13 @@ class Booking(models.Model):
         return reverse('booking:detail', kwargs={'pk': self.pk})
 
     def __str__(self):
+        start = to_current_timezone(self.begin_time)
         return 'Buchung von {} am {} von {}-{} Uhr'.format(
             self.user,
-            self.begin_time.strftime('%d.%m.%Y'),
-            self.begin_time.strftime('%H:%M'),
-            self.end_time.strftime('%H:%M') if self.end_time else '')
+            start.strftime('%d.%m.%Y'),
+            start.strftime('%H:%M'),
+            to_current_timezone(self.end_time).strftime('%H:%M')
+            if self.end_time else '')
 
     @property
     def duration(self) -> 'int|None':
