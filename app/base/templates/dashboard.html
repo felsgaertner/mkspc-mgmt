@@ -8,7 +8,9 @@
 <div>
 <table class="table">
   <thead>
-    <tr><th><h4 class="mb-0">{{ head.traits }}</h4></th><th>Personen</th></tr>
+    <tr class="text-center">
+      <th><h4 class="mb-0">{{ head.traits }}</h4></th><th>Personen</th>
+    </tr>
   </thead>
   {% for stat in trait.by_type %}
   <tr>
@@ -22,7 +24,9 @@
 <div>
 <table class="table">
   <thead>
-    <tr><th><h4 class="mb-0">{{ head.booking_types }}</h4></th><th>Buchungen</th><th>Dauer (ø)</th><th>Gesamt</th></tr>
+    <tr class="text-center">
+      <th><h4 class="mb-0">{{ head.booking_types }}</h4></th><th>Buchungen</th><th>Dauer (ø)</th><th>Gesamt</th>
+    </tr>
   </thead>
   {% for stat in booking.by_type %}
   <tr>

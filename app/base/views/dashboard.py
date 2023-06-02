@@ -2,9 +2,7 @@ from django.db.models import Q, F, Sum, Count, ExpressionWrapper, IntegerField
 from django.db.models.functions import Substr
 from django.views.generic import TemplateView
 
-from app.base.models import Booking, BookingType
-from app.base.models.trait import Trait
-from app.base.models.trait_mapping import TraitMapping
+from app.base.models import Booking, BookingType, Trait, TraitMapping
 from app.base.views.login import LoginRequired
 from app.base.views.model_views.base import ViewOptions
 
