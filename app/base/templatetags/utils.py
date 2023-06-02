@@ -26,6 +26,11 @@ def invert(number):
 
 
 @register.filter
+def divide(number: 'int|float', other: 'int|float'):
+    return number / (other or 1)
+
+
+@register.filter
 def get_item(dictionary, key):
     return dictionary and dictionary.get(key)
 

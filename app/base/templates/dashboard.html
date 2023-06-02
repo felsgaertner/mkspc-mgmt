@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load utils %}
+
+{% block content %}
+
+<div class="div-by-side">
+
+<div>
+<table class="table">
+  <thead>
+    <tr><th><h4 class="mb-0">{{ head.traits }}</h4></th><th>Personen</th></tr>
+  </thead>
+  {% for stat in trait.by_type %}
+  <tr>
+    <th>{{ trait.labels|get_item:stat.trait }}</th>
+    <td class="text-center"><a href="{% url 'trait-mapping:list' %}?trait={{stat.trait}}">{{ stat.count }}</a></td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+
+<div>
+<table class="table">
+  <thead>
+    <tr><th><h4 class="mb-0">{{ head.booking_types }}</h4></th><th>Buchungen</th><th>Dauer (ø)</th><th>Gesamt</th></tr>
+  </thead>
+  {% for stat in booking.by_type %}
+  <tr>
+    <th>{{ booking.labels|get_item:stat.type }}</th>
+    <td class="text-center">{{ stat.count }}</td>
+    <td class="text-right">{{ stat.sum|divide:stat.count|floatformat:1 }} Min.</td>
+    <td class="text-right">{{ stat.sum }} Min.</td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+
+</div>
+
+<h3>{{ head.bookings }}</h3>
+<table class="table table-sm">
+  {% for year, stat in booking.by_month.items reversed %}
+  <tr class="thead">
+    <th><h4 class="mb-0">{{ year }}</h4></th>
+    <th>∑</th><th>Jan</th><th>Feb</th><th>Mär</th><th>Apr</th><th>Mai</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Okt</th><th>Nov</th><th>Dez</th>
+  </tr>
+  <tr>
+    <th>Buchungen</th>
+    {% for sum, count in stat %}<td>{{ count }}</td>{% endfor %}
+  </tr>
+  <tr>
+    <th>Minuten (ø)</th>
+    {% for sum, count in stat %}<td>{{ sum|divide:count|floatformat:1 }}</td>{% endfor %}
+  </tr>
+  <tr>
+    <th>Minuten</th>
+    {% for sum, count in stat %}<td>{{ sum }}</td>{% endfor %}
+  </tr>
+  <tr class="blank"></tr>
+  {% endfor %}
+</table>
+
+{% endblock content %}

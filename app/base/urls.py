@@ -5,6 +5,7 @@ from django.urls import include, path
 from django.views.generic import RedirectView
 
 from app.base.views.settings import SettingsView
+from app.base.views.dashboard import DashboardView
 from app.base.views.trigger.toggle_checkin import ToggleCheckinView
 from app.base.views.trigger.update_note import UpdateNoteView
 
@@ -14,6 +15,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('settings/', SettingsView.as_view(), name='settings'),
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('users/<int:user_id>/toggle-checkin/',
          ToggleCheckinView.as_view(), name='toggle-checkin'),
     path('users/<int:user_id>/update-note/',

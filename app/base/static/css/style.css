@@ -133,11 +133,14 @@ table th {
   background-color: var(--bg-dim);
 }
 
-thead>tr {
+thead>tr, tr.thead {
   border: 1px solid #DDD;
   position: sticky;
   top: 4rem;
   z-index: 98;
+}
+tr.thead>th {
+  vertical-align: bottom;
 }
 
 /* .detail-table {
@@ -159,6 +162,10 @@ thead>tr {
 
 tbody>tr {
   border: 1px solid #DDD;
+}
+
+tr.blank {
+  height: 3ex;
 }
 
 td.table-actions {
@@ -293,6 +300,12 @@ table.clickable tbody>tr:hover {
 #sidebar-wrapper i {
   width: 2rem;
   text-align: center;
+}
+
+.div-by-side>div {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 1em;
 }
 
 #page-content-wrapper {
