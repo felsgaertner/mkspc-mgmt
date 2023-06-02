@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from django.db.models import OuterRef
     from app.base.models.person import Person
     from app.base.models.booking_type import BookingType
-    from datetime import timedelta
+    from datetime import timedelta  # noqa F401
 
 
 class Booking(models.Model):
