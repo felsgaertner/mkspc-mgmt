@@ -2,9 +2,9 @@ from django.db import models
 from django.db.models import Q
 from django.forms.utils import to_current_timezone
 from django.urls import reverse
-from django.utils import timezone
 
 from app.base.forms.fields import DateTimeField, TextField
+from app.base.forms.utils import datetime_now
 
 from datetime import datetime
 from typing import TYPE_CHECKING
@@ -20,7 +20,7 @@ class Booking(models.Model):
         'BookingType', on_delete=models.PROTECT, verbose_name='Art')
     user: 'models.ForeignKey[Person]' = models.ForeignKey(
         'Person', on_delete=models.CASCADE, verbose_name='Nutzer:in')
-    begin_time = DateTimeField('Beginn', default=datetime.now)
+    begin_time = DateTimeField('Beginn', default=datetime_now)
     end_time = DateTimeField('Ende', blank=True, null=True)
     comment = TextField('Kommentar', blank=True)
 
@@ -62,7 +62,7 @@ class Booking(models.Model):
     def currently_open_checkin(for_user: 'Person|OuterRef') -> 'Booking|None':
         return Booking.objects.filter(
             Q(user=for_user),
-            Q(begin_time__lte=timezone.now()),
+            Q(begin_time__lte=datetime_now()),
             Q(end_time=None),
             Q(type__is_checkin=True)
         ).first()
