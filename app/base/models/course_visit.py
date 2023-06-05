@@ -6,22 +6,22 @@ from app.base.forms.fields import DateField
 from datetime import date
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from app.base.models.course import Course
-    from app.base.models.person import Person
+    from app.base.models import Course, Person
 
 
 class CourseVisit(models.Model):
     course: 'models.ForeignKey[Course]' = models.ForeignKey(
-        'Course', on_delete=models.CASCADE,
-        related_name='visits', verbose_name='Einweisung')
+        'Course', on_delete=models.CASCADE, related_name='visits',
+        verbose_name='Einweisung')
     participant: 'models.ForeignKey[Person]' = models.ForeignKey(
-        'Person', on_delete=models.CASCADE,
-        related_name='courses', verbose_name='Wer wurde eingewiesen?')
+        'Person', on_delete=models.CASCADE, related_name='courses',
+        verbose_name='Wer wurde eingewiesen?')
     teacher: 'models.ForeignKey[Person]|models.ForeignKey[None]' =\
         models.ForeignKey(
              'Person', on_delete=models.SET_NULL, blank=True, null=True,
              related_name='instructed', verbose_name='Durchgeführt von')
-    date = DateField('Datum', default=date.today)
+    date: 'models.DateField[date]' = DateField(
+        'Datum', default=date.today)
 
     class Meta:
         verbose_name = 'Teilnahme'

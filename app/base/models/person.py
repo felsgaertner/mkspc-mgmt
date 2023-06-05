@@ -17,15 +17,16 @@ class Person(models.Model):
 
     first_name = models.CharField('Vorname', max_length=200)
     last_name = models.CharField('Nachname', max_length=200)
-    email = models.EmailField('Email', blank=True, null=True)
-    phone = models.CharField('Telefon', max_length=200, blank=True, null=True)
-    birth_date = DateField('Geburtsdatum')
-    zip_code = models.CharField('PLZ', max_length=10)
-    city = models.CharField('Stadt', max_length=200)
+    birth_date: 'models.DateField[date]' = DateField('Geburtsdatum')
     street = models.CharField('Straße', max_length=200)
     house_nr = models.CharField('Hausnummer', max_length=10)
+    zip_code = models.CharField('PLZ', max_length=10)
+    city = models.CharField('Stadt', max_length=200)
+    email = models.EmailField('Email', blank=True, null=True)
+    phone = models.CharField('Telefon', max_length=200, blank=True, null=True)
 
-    identified = models.BooleanField('Ausweis vorgezeigt', default=False)
+    identified = models.BooleanField(
+        'Ausweis vorgezeigt', default=False)
     agreed_to_terms_of_service = models.BooleanField(
         'Nutzungsbedingungen zugestimmt', default=False)
 

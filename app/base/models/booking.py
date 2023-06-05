@@ -6,13 +6,11 @@ from django.urls import reverse
 from app.base.forms.fields import DateTimeField, TextField
 from app.base.forms.utils import datetime_now
 
-from datetime import datetime
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from django.db.models import OuterRef
-    from app.base.models.person import Person
-    from app.base.models.booking_type import BookingType
-    from datetime import timedelta  # noqa F401
+    from app.base.models import Person, BookingType
+    from datetime import datetime, timedelta  # noqa F401
 
 
 class Booking(models.Model):
@@ -20,9 +18,12 @@ class Booking(models.Model):
         'BookingType', on_delete=models.PROTECT, verbose_name='Art')
     user: 'models.ForeignKey[Person]' = models.ForeignKey(
         'Person', on_delete=models.CASCADE, verbose_name='Nutzer:in')
-    begin_time = DateTimeField('Beginn', default=datetime_now)
-    end_time = DateTimeField('Ende', blank=True, null=True)
-    comment = TextField('Kommentar', blank=True)
+    begin_time: 'models.DateTimeField[datetime]' = DateTimeField(
+        'Beginn', default=datetime_now)
+    end_time: 'models.DateTimeField[datetime|None]' = DateTimeField(
+        'Ende', blank=True, null=True)
+    comment: 'models.TextField[str]' = TextField(
+        'Kommentar', blank=True)
 
     class Meta:
         verbose_name = 'Buchung'

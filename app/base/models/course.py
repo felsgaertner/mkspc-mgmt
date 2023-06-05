@@ -2,14 +2,20 @@ from django.db import models
 from django.urls import reverse
 
 from app.base.forms.fields import TextField
-from app.base.models.course_visit import CourseVisit
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from app.base.models import CourseVisit
 
 
 class Course(models.Model):
-    instructed: models.QuerySet[CourseVisit]
     title = models.CharField('Titel', max_length=280)
     mandatory = models.BooleanField('Braucht jeder?', default=False)
-    description = TextField('Beschreibung', blank=True)
+    description: 'models.TextField[str]' = TextField(
+        'Beschreibung', blank=True)
+
+    # related_name
+    instructed: 'models.QuerySet[CourseVisit]'
 
     class Meta:
         verbose_name = 'Einweisung'

@@ -10,7 +10,7 @@ from typing import Iterable
 class BookingType(models.Model):
     key = models.CharField('UUID', primary_key=True, max_length=20)
     label = models.CharField('Bezeichnung', max_length=200)
-    price = CurrencyField('Preis (€)')
+    price: 'models.DecimalField[Decimal]' = CurrencyField('Preis (€)')
     interval = models.IntegerField('Intervall (Min)', default=60)
     is_checkin = models.BooleanField('Ist Eincheck-Option', default=False)
 

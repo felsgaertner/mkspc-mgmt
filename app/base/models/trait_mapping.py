@@ -6,8 +6,7 @@ from app.base.forms.fields import DateField
 from datetime import date
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from app.base.models.person import Person
-    from app.base.models.trait import Trait
+    from app.base.models import Person, Trait
 
 
 class TraitMapping(models.Model):
@@ -16,8 +15,10 @@ class TraitMapping(models.Model):
         verbose_name='Werkstattnutzer:in')
     trait: 'models.ForeignKey[Trait]' = models.ForeignKey(
         'Trait', on_delete=models.CASCADE, verbose_name='Attribut')
-    valid_from = DateField('Gültig von', default=date.today)
-    valid_until = DateField('Gültig bis', blank=True, null=True)
+    valid_from: 'models.DateField[date]' = DateField(
+        'Gültig von', default=date.today)
+    valid_until: 'models.DateField[date|None]' = DateField(
+        'Gültig bis', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Attributzuweisung'

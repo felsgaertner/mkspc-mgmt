@@ -3,18 +3,27 @@ from django.urls import reverse
 
 from app.base.forms.fields import CurrencyField, DateTimeField
 from app.base.forms.utils import datetime_now
-from app.base.models.account import Account
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from datetime import datetime
+    from decimal import Decimal
+    from app.base.models import Account, Booking
 
 
 class Transaction(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.CASCADE,
-                                verbose_name='Konto')
-    amount = CurrencyField('Betrag')
-    booking = models.OneToOneField('Booking', on_delete=models.CASCADE,
-                                   verbose_name='Zugehörige Zeitbuchung',
-                                   null=True, blank=True, default=None)
-    description = models.CharField('Beschreibung', max_length=500)
-    time_stamp = DateTimeField('Datum / Uhrzeit', editable=False)
+    account: 'models.ForeignKey[Account]' = models.ForeignKey(
+        'Account', on_delete=models.CASCADE, verbose_name='Konto')
+    amount: 'models.DecimalField[Decimal]' = CurrencyField(
+        'Betrag')
+    booking: 'models.OneToOneField[Booking]|models.OneToOneField[None]' = \
+        models.OneToOneField('Booking', on_delete=models.CASCADE,
+                             verbose_name='Zugehörige Zeitbuchung',
+                             blank=True, null=True, default=None)
+    description = models.CharField(
+        'Beschreibung', max_length=500)
+    time_stamp: 'models.DateTimeField[datetime]' = DateTimeField(
+        'Datum / Uhrzeit', editable=False)
 
     class Meta:
         verbose_name = 'Transaktion'

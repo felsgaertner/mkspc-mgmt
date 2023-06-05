@@ -1,12 +1,17 @@
 from django.db import models
 
 from app.base.forms.fields import CurrencyField
-from app.base.models.person import Person
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from decimal import Decimal
+    from app.base.models.person import Person
 
 
 class Account(models.Model):
-    user = models.OneToOneField(Person, on_delete=models.CASCADE)
-    balance = CurrencyField('Guthaben')
+    user: 'models.OneToOneField[Person]' = models.OneToOneField(
+        'Person', on_delete=models.CASCADE)
+    balance: 'models.DecimalField[Decimal]' = CurrencyField('Guthaben')
     locked = models.BooleanField('Gesperrt', default=False)
 
     class Meta:
