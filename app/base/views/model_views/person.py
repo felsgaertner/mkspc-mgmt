@@ -11,9 +11,8 @@ from app.base.views.model_views.base import (
 )
 
 FORM_FIELDS = [  # hide UUID, and many-to-many mappings
-    'first_name', 'last_name', 'birth_date', 'street', 'house_nr',
-    'zip_code', 'city', 'email', 'phone', 'identified',
-    'agreed_to_terms_of_service',
+    'first_name', 'last_name', 'birth_date', 'street', 'zip_code', 'city',
+    'email', 'phone', 'identified', 'agreed_to_terms_of_service',
 ]
 
 
