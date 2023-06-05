@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 
 from app.base.forms.fields import CurrencyField, DateTimeField
+from app.base.forms.utils import datetime_now
 from app.base.models.account import Account
 
 
@@ -13,7 +14,7 @@ class Transaction(models.Model):
                                    verbose_name='Zugehörige Zeitbuchung',
                                    null=True, blank=True, default=None)
     description = models.CharField('Beschreibung', max_length=500)
-    time_stamp = DateTimeField('Datum / Uhrzeit', auto_now_add=True)
+    time_stamp = DateTimeField('Datum / Uhrzeit', editable=False)
 
     class Meta:
         verbose_name = 'Transaktion'
@@ -24,3 +25,8 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f'Transaktion über {self.amount}€ von {self.account}'
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.time_stamp = datetime_now()
+        return super().save(*args, **kwargs)
