@@ -48,11 +48,11 @@ class CourseVisitCreateView(CourseVisitOptions, ModelCreateView):
 
 
 # class CourseVisitUpdateView(CourseVisitOptions, ModelUpdateView):
-#     on_success = 'person:detail', '{.user.pk}'
+#     on_success = 'person:detail', '{.participant.pk}'
 
 
 class CourseVisitDeleteView(CourseVisitOptions, ModelDeleteView):
-    on_success = 'person:detail', '{.user.pk}'
+    on_success = 'person:detail', '{.participant.pk}'
 
 
 # URL paths
