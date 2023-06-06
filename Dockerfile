@@ -18,5 +18,6 @@ COPY --chmod=700 ./scripts /scripts
 
 # finally copy app (likely will invalidate cache)
 COPY . .
+RUN (date +'%Y-%m-%d %R') > build_date.txt
 
 CMD ["on-deploy.sh"]
