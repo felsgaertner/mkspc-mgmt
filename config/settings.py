@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import datetime, timezone as TZ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +26,12 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'insecure-+3@1h+@wz%6m*dpx0e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'yes').lower() not in ['false', 'no', '0']
+
+try:
+    with open(BASE_DIR / 'build_date.txt', 'r') as fp:
+        BUILD_DATE = datetime.fromisoformat(fp.read()).replace(tzinfo=TZ.utc)
+except FileNotFoundError:
+    BUILD_DATE = None
 
 ALLOWED_HOSTS = []
 
@@ -70,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app.base.context.custom_context',
             ],
         },
     },

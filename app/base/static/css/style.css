@@ -282,8 +282,8 @@ table.clickable tbody>tr:hover {
 }
 
 #sidebar-wrapper {
-  font-family: 'Dosis', sans-serif;
-  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;
@@ -295,6 +295,8 @@ table.clickable tbody>tr:hover {
 
 #sidebar-wrapper .list-group {
   width: max-content;
+  font-family: 'Dosis', sans-serif;
+  font-size: 1.2rem;
 }
 
 .icon-list i {

@@ -51,6 +51,12 @@
         <a href="{% url 'transaction:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-euro-sign"></i> Transaktionen</a>
         <a href="{% url 'trait:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-tags"></i> Attribute</a>
       </div>
+      {% if BUILD_DATE %}
+      <i class="flex-fill"></i>
+      <p class="small text-center font-weight-lighter">
+        v{{ BUILD_DATE|date:'Y-m-d H:i' }}
+      </p>
+      {% endif %}
     </div>
     <div id="page-content-wrapper" class="container-fluid position-relative">
       {% breadcrumbs %}
