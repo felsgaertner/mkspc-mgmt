@@ -110,8 +110,9 @@ class PersonDetailView(PersonOptions, ModelDetailView):
         context['course_list'] = {
             'objects': self.object.courses.all(),
             'views': {
-                'delete': 'course-visit:delete',
                 'detail': 'course-visit:detail',
+                'update': 'course-visit:update',
+                'delete': 'course-visit:delete',
             },
             'columns': ['date', 'course'],
             'render': {

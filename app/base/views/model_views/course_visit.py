@@ -3,7 +3,7 @@ from django.urls import path
 from app.base.models import CourseVisit
 from app.base.views.login import LoginRequired
 from app.base.views.model_views.base import (
-    ModelDetailView, ModelListView, ModelCreateView,  # ModelUpdateView,
+    ModelDetailView, ModelListView, ModelCreateView, ModelUpdateView,
     ViewOptions, ModelDeleteView
 )
 
@@ -15,7 +15,7 @@ class CourseVisitOptions(ViewOptions[CourseVisit], LoginRequired):
         'list': 'course-visit:list',
         'detail': 'course-visit:detail',
         'create': 'course-visit:create',
-        # 'update': 'course-visit:update',
+        'update': 'course-visit:update',
         'delete': 'course-visit:delete'
     }
     # detail_fields = []
@@ -37,7 +37,7 @@ class CourseVisitDetailView(CourseVisitOptions, ModelDetailView):
 
 
 class CourseVisitCreateView(CourseVisitOptions, ModelCreateView):
-    # on_success = 'person:detail', '{.user.pk}'
+    # on_success = 'person:detail', '{.participant.pk}'
 
     def get_initial(self):
         initial = super().get_initial()
@@ -47,8 +47,9 @@ class CourseVisitCreateView(CourseVisitOptions, ModelCreateView):
         return initial
 
 
-# class CourseVisitUpdateView(CourseVisitOptions, ModelUpdateView):
-#     on_success = 'person:detail', '{.participant.pk}'
+class CourseVisitUpdateView(CourseVisitOptions, ModelUpdateView):
+    # on_success = 'person:detail', '{.participant.pk}'
+    pass
 
 
 class CourseVisitDeleteView(CourseVisitOptions, ModelDeleteView):
@@ -61,6 +62,6 @@ urlpatterns = [
     path('', CourseVisitListView.as_view(), name='list'),
     path('<int:pk>/', CourseVisitDetailView.as_view(), name='detail'),
     path('new/', CourseVisitCreateView.as_view(), name='create'),
-    # path('update/<int:pk>/', CourseVisitUpdateView.as_view(), name='update'),
+    path('update/<int:pk>/', CourseVisitUpdateView.as_view(), name='update'),
     path('delete/<int:pk>/', CourseVisitDeleteView.as_view(), name='delete'),
 ]
