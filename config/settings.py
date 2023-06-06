@@ -29,7 +29,8 @@ DEBUG = os.environ.get('DEBUG', 'yes').lower() not in ['false', 'no', '0']
 
 try:
     with open(BASE_DIR / 'build_date.txt', 'r') as fp:
-        BUILD_DATE = datetime.fromisoformat(fp.read()).replace(tzinfo=TZ.utc)
+        raw_date = fp.read().strip()
+        BUILD_DATE = datetime.fromisoformat(raw_date).replace(tzinfo=TZ.utc)
 except FileNotFoundError:
     BUILD_DATE = None
 
