@@ -36,6 +36,6 @@ class Transaction(models.Model):
         return f'Transaktion über {self.amount}€ von {self.account}'
 
     def save(self, *args, **kwargs):
-        if not self.pk:
+        if self._state.adding:
             self.time_stamp = datetime_now()
         return super().save(*args, **kwargs)

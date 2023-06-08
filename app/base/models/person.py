@@ -56,7 +56,7 @@ class Person(models.Model):
         return f'{self.first_name} {self.last_name}'
 
     def save(self, *args, **kwargs):
-        if not self.pk:
+        if self._state.adding:
             self.created = date.today()
             self.last_visit = date.today()
         return super().save(*args, **kwargs)
