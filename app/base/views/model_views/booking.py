@@ -66,6 +66,8 @@ class BookingCreateView(BookingOptions, ModelCreateView):
 
 class BookingUpdateView(BookingOptions, ModelUpdateView):
     on_success = 'person:detail', '{.user.pk}'
+    # prevent update to change account (OR modify account in upsertFromBooking)
+    fields = ['type', 'begin_time', 'end_time', 'comment']
 
 
 class BookingDeleteView(BookingOptions, ModelDeleteView):
