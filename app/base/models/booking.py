@@ -41,6 +41,26 @@ class Booking(models.Model):
             to_current_timezone(self.end_time).strftime('%H:%M')
             if self.end_time else '')
 
+    def save(self, *args, **kwargs):
+        # update last_visit time of all involved persons
+        prev = Booking.objects.get(pk=self.pk) if self.pk else None
+
+        rv = super().save(*args, **kwargs)
+
+        if prev and prev.user != self.user:
+            prev.user.update_last_visit(None)
+        if not prev or prev.user != self.user or \
+                prev.begin_time.date() != self.begin_time.date():
+            self.user.update_last_visit(self.begin_time.date())
+
+        return rv
+
+    def delete(self, *args, **kwargs):
+        rv = super().delete(*args, **kwargs)
+        # update last_visit time for person
+        self.user.update_last_visit(None)
+        return rv
+
     @property
     def duration(self) -> 'int|None':
         if self.end_time:
@@ -53,11 +73,6 @@ class Booking(models.Model):
         traits = self.user.traits_at_date(self.begin_time).values_list('trait')
         traits = set(x[0] for x in traits)
         return self.type.price_with_traits(self.duration or 0, traits)
-
-    @staticmethod
-    def latest_checkin_query(for_user: 'Person|OuterRef'):
-        objects = Booking.objects.filter(user=for_user)
-        return objects.order_by('-begin_time').values('begin_time')[:1]
 
     @staticmethod
     def currently_open_checkin(for_user: 'Person|OuterRef') -> 'Booking|None':

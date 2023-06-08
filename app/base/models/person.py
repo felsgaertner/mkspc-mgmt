@@ -3,17 +3,20 @@ from django.db.models import Q
 from django.urls import reverse
 
 from app.base.forms.fields import DateField
-from app.base.models.course import Course
 from app.base.models.booking import Booking
+from app.base.models.course import Course
+from app.base.models.course_visit import CourseVisit
 
 from datetime import datetime, date
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from app.base.models import Account, Note, CourseVisit, TraitMapping
+    from app.base.models import Account, Note, TraitMapping
 
 
 class Person(models.Model):
     created: 'models.DateField[date]' = DateField('Angelegt', editable=False)
+    last_visit: 'models.DateField[date]' = DateField(
+        'Letzter Besuch', editable=False)
 
     uuid = models.CharField('Karten-ID', max_length=200, blank=True)
     first_name = models.CharField('Vorname', max_length=200)
@@ -55,6 +58,7 @@ class Person(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.created = date.today()
+            self.last_visit = date.today()
         return super().save(*args, **kwargs)
 
     @property
@@ -76,15 +80,32 @@ class Person(models.Model):
         return self.traits_at_date(datetime.now()).values_list(
             'pk', 'trait__key', 'trait__label')
 
+    @property
+    def current_checkin(self):
+        return Booking.currently_open_checkin(self)
+
     def traits_at_date(self, date: datetime):
         return self.traits.filter(
             Q(valid_from__lte=date),
             Q(valid_until__gte=date) | Q(valid_until=None))
 
-    def last_check_in(self) -> 'datetime|None':
-        obj = Booking.latest_checkin_query(self).first()
-        return obj['begin_time'] if obj else None
+    def lookup_last_visit(self) -> date:
+        ''' Return newest date from either booking, course, or created. '''
+        last_booking = Booking.objects.filter(
+            user=self).order_by('-begin_time').first()
+        last_course = CourseVisit.objects.filter(
+            Q(participant=self) | Q(teacher=self)).order_by('-date').first()
+        available_dates = [self.created]
+        if last_booking:
+            available_dates.append(last_booking.begin_time.date())
+        if last_course:
+            available_dates.append(last_course.date)
+        return max(available_dates)
 
-    @property
-    def current_checkin(self):
-        return Booking.currently_open_checkin(self)
+    def update_last_visit(self, new_visit: 'date|None') -> None:
+        if self.last_visit == new_visit:
+            return  # no need to update
+        if not new_visit or new_visit < self.last_visit:
+            new_visit = self.lookup_last_visit()
+        self.last_visit = new_visit
+        self.save()

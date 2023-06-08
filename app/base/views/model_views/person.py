@@ -1,9 +1,6 @@
-from django.db.models import OuterRef, Subquery
 from django.urls import path
 
-from app.base.models.booking import Booking
-from app.base.models.transaction import Transaction
-from app.base.models.person import Person
+from app.base.models import Booking, Person, Transaction
 from app.base.views.login import LoginRequired
 from app.base.views.model_views.base import (
     ModelDetailView, ModelListView, ModelCreateView, ModelUpdateView,
@@ -37,29 +34,25 @@ class PersonOptions(ViewOptions[Person], LoginRequired):
         'trait': 'traits__pk',
         'course': 'courses__pk',
     }
-    list_columns = ['display_name', 'birth_date', 'last_check_in']
+    list_columns = ['display_name', 'birth_date', 'last_visit']
     list_render = {
-        'display_name': {'verbose_name': 'Nutzer:in'},
+        'display_name': {
+            'verbose_name': 'Nutzer:in'
+        },
         'birth_date': {
             'verbose_name': 'Geburtsjahr',
             'date_format': 'Y',
         },
-        'last_check_in': {
-            'verbose_name': 'Letzter Besuch',
-            'date_format': 'D. d. M y, H:i',
+        'last_visit': {
+            'date_format': 'D. d. M y',
         },
     }
 
 
 class PersonListView(PersonOptions, ModelListView):
     icon = 'users'
-    ordering = ('-last_check_in',)
+    ordering = ('-last_visit',)
     search_fields = ['uuid', 'first_name', 'last_name']
-
-    def get_queryset(self):
-        query = Subquery(Booking.latest_checkin_query(OuterRef('pk')))
-        rv = Person.objects.annotate(last_check_in=query)
-        return rv.order_by(*self.ordering)
 
 
 class PersonCreateView(PersonOptions, ModelCreateView):
