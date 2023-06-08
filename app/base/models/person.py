@@ -43,7 +43,7 @@ class Person(models.Model):
     class Meta:
         verbose_name = 'Werkstattnutzer:in'
         verbose_name_plural = 'Werkstattnutzer:innen'
-        # ordering = ('first_name', 'last_name')
+        ordering = ('-last_visit',)
         # indexes = [
         #     models.Index(fields=['first_name', 'last_name']),
         #     models.Index(Latest,fields=["first_name"],name="first_name_idx"),
