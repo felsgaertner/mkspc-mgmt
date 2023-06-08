@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from app.base.forms.fields import DateTimeField, TextField
 from app.base.forms.utils import datetime_now
+from app.base.models.transaction import Transaction
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -42,11 +43,14 @@ class Booking(models.Model):
             if self.end_time else '')
 
     def save(self, *args, **kwargs):
-        # update last_visit time of all involved persons
         prev = Booking.objects.get(pk=self.pk) if self.pk else None
 
         rv = super().save(*args, **kwargs)
 
+        # update Transaction
+        Transaction.upsertFromBooking(self)
+
+        # update last_visit time of all involved persons
         if prev and prev.user != self.user:
             prev.user.update_last_visit(None)
         if not prev or prev.user != self.user or \

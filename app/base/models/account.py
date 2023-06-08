@@ -21,10 +21,10 @@ class Account(models.Model):
     def __str__(self):
         return f"{self.user}'s Konto"
 
-    # def change_balance(self, amount):
-    #     self.balance = self.balance - amount
-    #     self.save()
-    #     return True
+    def update_balance(self, amount: 'Decimal') -> None:
+        if amount:
+            self.balance += amount
+            self.save()
 
     # def lock(self):
     #     self.locked = True

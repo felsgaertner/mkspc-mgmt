@@ -38,4 +38,37 @@ class Transaction(models.Model):
     def save(self, *args, **kwargs):
         if self._state.adding:
             self.time_stamp = datetime_now()
+            self.account.update_balance(self.amount)
+        elif self.pk:  # basically an "else", but just to be sure
+            prev = Transaction.objects.get(pk=self.pk)
+            self.account.update_balance(self.amount - prev.amount)
+
         return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.account.update_balance(-self.amount)
+        return super().delete(*args, **kwargs)
+
+    @staticmethod
+    def upsertFromBooking(booking: 'Booking'):
+        amount = booking.calculated_price
+        should_exist = booking.end_time and amount
+        description = f'{booking.type.label} ({booking.duration or 0} Min)'
+
+        # Create or update existing Transaction
+        transaction = Transaction.objects.filter(booking=booking).first()
+        if transaction:
+            if should_exist:
+                transaction.amount = -amount
+                transaction.description = description
+                transaction.save()
+            else:
+                transaction.delete()
+
+        elif should_exist:
+            Transaction.objects.create(
+                account=booking.user.account,
+                amount=-amount,
+                description=description,
+                booking=booking,
+            )

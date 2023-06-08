@@ -59,6 +59,7 @@ class Person(models.Model):
         if self._state.adding:
             self.created = date.today()
             self.last_visit = date.today()
+            Account.objects.create(user=self)
         return super().save(*args, **kwargs)
 
     @property
