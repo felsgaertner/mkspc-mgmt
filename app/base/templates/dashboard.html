@@ -3,6 +3,18 @@
 
 {% block content %}
 
+<h3>Personen</h3>
+<p>
+Personen gesamt: <b>{{person.by_count.total}}</b>
+(davon haben <b>{{person.by_count.single_visit}}</b> die Werkstatt nur 1x besucht
+und <b>{{person.by_count.long_not_seen}}</b> waren seit über einem Jahr nicht mehr da)
+</p>
+<p>
+  <b>{{person.by_count.no_booking}}</b> haben noch nie Werkstattzeit gebucht.
+  <b>{{person.by_count.no_course}}</b> haben nie eine Einweisung gemacht.
+</p>
+
+<h3>Nach Art</h3>
 <div class="div-by-side">
 
 <div>
@@ -42,23 +54,41 @@
 </div>
 
 <h3>{{ head.bookings }}</h3>
-<table class="table table-sm">
-  {% for year, stat in booking.by_month.items reversed %}
+<table id="by_month_history" class="table table-sm">
+  {% for year, stat in by_month %}
   <tr class="thead">
     <th><h4 class="mb-0">{{ year }}</h4></th>
     <th>∑</th><th>Jan</th><th>Feb</th><th>Mär</th><th>Apr</th><th>Mai</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Okt</th><th>Nov</th><th>Dez</th>
   </tr>
   <tr>
+    <th>Personen</th>
+    {% for sum, count, people in stat %}
+    <td{% if not people %} class="text-gray"{% endif %}>
+      {% if people and not forloop.first %}
+      <a href="{% url 'person:list' %}?created.y={{year}}&created.m={{forloop.counter0}}">{{ people }}</a>
+      {% else %}
+      {{ people }}
+      {% endif %}
+    </td>
+    {% endfor %}
+  </tr>
+  <tr>
     <th>Buchungen</th>
-    {% for sum, count in stat %}<td>{{ count }}</td>{% endfor %}
+    {% for sum, count, people in stat %}
+    <td{% if not count %} class="text-gray"{% endif %}>{{ count }}</td>
+    {% endfor %}
   </tr>
   <tr>
     <th>Minuten (ø)</th>
-    {% for sum, count in stat %}<td>{{ sum|divide:count|floatformat:1 }}</td>{% endfor %}
+    {% for sum, count, people in stat %}
+    <td{% if not sum %} class="text-gray"{% endif %}>{{ sum|divide:count|floatformat:1 }}</td>
+    {% endfor %}
   </tr>
   <tr>
     <th>Minuten</th>
-    {% for sum, count in stat %}<td>{{ sum }}</td>{% endfor %}
+    {% for sum, count, people in stat %}
+    <td{% if not sum %} class="text-gray"{% endif %}>{{ sum }}</td>
+    {% endfor %}
   </tr>
   <tr class="blank"></tr>
   {% endfor %}

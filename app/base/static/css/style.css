@@ -269,6 +269,13 @@ table.clickable tbody>tr:hover {
 .text-green {
   color: #23be58;
 }
+.text-gray {
+  color: #aaa;
+}
+
+#by_month_history td:first-of-type {
+  text-decoration: dotted underline;
+}
 
 #profileMenu {
   position: absolute;

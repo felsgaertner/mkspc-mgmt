@@ -33,6 +33,9 @@ class PersonOptions(ViewOptions[Person], LoginRequired):
     list_filter = {
         'trait': 'traits__pk',
         'course': 'courses__pk',
+        'created': 'created',
+        'created.y': 'created__year',
+        'created.m': 'created__month',
     }
     list_columns = ['display_name', 'birth_date', 'last_visit']
     list_render = {
