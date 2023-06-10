@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.urls import reverse
 
 from app.base.forms.fields import DateField
+from app.base.models.account import Account
 from app.base.models.booking import Booking
 from app.base.models.course import Course
 from app.base.models.course_visit import CourseVisit
@@ -10,7 +11,7 @@ from app.base.models.course_visit import CourseVisit
 from datetime import datetime, date
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from app.base.models import Account, Note, TraitMapping
+    from app.base.models import Note, TraitMapping
 
 
 class Person(models.Model):
