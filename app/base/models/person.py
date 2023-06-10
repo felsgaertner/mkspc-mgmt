@@ -60,8 +60,10 @@ class Person(models.Model):
         if self._state.adding:
             self.created = date.today()
             self.last_visit = date.today()
+        rv = super().save(*args, **kwargs)
+        if self._state.adding:
             Account.objects.create(user=self)
-        return super().save(*args, **kwargs)
+        return rv
 
     @property
     def display_name(self):
