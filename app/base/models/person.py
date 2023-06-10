@@ -57,11 +57,12 @@ class Person(models.Model):
         return f'{self.first_name} {self.last_name}'
 
     def save(self, *args, **kwargs):
-        if self._state.adding:
+        is_new = self._state.adding
+        if is_new:
             self.created = date.today()
             self.last_visit = date.today()
         rv = super().save(*args, **kwargs)
-        if self._state.adding:
+        if is_new:
             Account.objects.create(user=self)
         return rv
 
