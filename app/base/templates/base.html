@@ -8,42 +8,44 @@
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap4.6.2/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap5.3/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'fontawesome6.4.0/css/all.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     {% comment %} <script src="{% static 'jquery3.6.4/js/jquery.min.js' %}"></script> {% endcomment %}
-    {% comment %} <script src="{% static 'bootstrap4.6.2/js/bootstrap.min.js' %}"></script> {% endcomment %}
+    {% comment %} <script src="{% static 'bootstrap5.3/js/bootstrap.min.js' %}"></script> {% endcomment %}
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/onload.js' %}" defer></script>
     <title>{% block title %}{{ title }}{% endblock title %}</title>
 </head>
 <body>
   <header>
-    <nav id="main-nav" class="navbar navbar-expand-lg navbar-light">
-      <a id="navbar-toggler" onclick="toggleMenu('sidebar-wrapper')">
-        <span class="navbar-toggler-icon"></span>
-      </a>
-      <a class="navbar-brand d-none d-md-block" href="{% url 'index' %}">
-        <img id="logo" src="{% static 'img/logo.png' %}" alt="Werkstattmanagement">
-      </a>
-      <form id="global-search" action="{% url 'person:list' %}" method="get">
-        <input name="q" value="{{ request.GET.q }}">
-        <button type="submit" class="btn bg-owba"><i class="fas fa-search"></i></button>
-      </form>
-      <div class="avatar">
-        <button type="button" data-toggle="dropdown" onclick="toggleMenu('profileMenu')">
-          <i class="far fa-user fa-lg"></i>
-        </button>
-        <div id="profileMenu" class="dropdown-menu dropdown-menu-right icon-list">
-          <a class="dropdown-item" href="{% url 'dashboard' %}"><i class="fas fa-chart-line"></i> Dashboard</a>
-          <a class="dropdown-item" href="{% url 'settings' %}"><i class="fas fa-sliders-h"></i> Einstellungen</a>
-          <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a id="navbar-toggler" onclick="toggleMenu('sidebar-wrapper')">
+          <span class="navbar-toggler-icon"></span>
+        </a>
+        <a class="navbar-brand d-none d-md-block" href="{% url 'index' %}">
+          <img id="logo" src="{% static 'img/logo.png' %}" alt="Werkstattmanagement">
+        </a>
+        <form id="global-search" action="{% url 'person:list' %}" method="get">
+          <input name="q" value="{{ request.GET.q }}">
+          <button type="submit" class="btn bg-owba"><i class="fas fa-search"></i></button>
+        </form>
+        <div class="avatar">
+          <button type="button" data-toggle="dropdown" onclick="toggleMenu('profileMenu')">
+            <i class="far fa-user fa-lg"></i>
+          </button>
+          <div id="profileMenu" class="dropdown-menu dropdown-menu-right icon-list">
+            <a class="dropdown-item" href="{% url 'dashboard' %}"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a class="dropdown-item" href="{% url 'settings' %}"><i class="fas fa-sliders-h"></i> Einstellungen</a>
+            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+          </div>
         </div>
       </div>
     </nav>
   </header>
   <div class="d-flex" id="wrapper">
-    <div id="sidebar-wrapper" class="border-right bg-dim">
+    <div id="sidebar-wrapper" class="border-end bg-dim">
       <div class="icon-list list-group list-group-flush">
         <a href="{% url 'booking:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-clock"></i> Zeitbuchungen</a>
         <a href="{% url 'person:list' %}" class="list-group-item list-group-item-action bg-dim"><i class="fas fa-users"></i> Werkstattnutzer:innen</a>
@@ -53,7 +55,7 @@
       </div>
       {% if BUILD_DATE %}
       <i class="flex-fill"></i>
-      <p class="small text-center font-weight-lighter">
+      <p class="small text-center fw-lighter">
         v{{ BUILD_DATE|date:'Y-m-d H:i' }}
       </p>
       {% endif %}

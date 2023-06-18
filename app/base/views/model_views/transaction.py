@@ -27,7 +27,7 @@ class TransactionOptions(ViewOptions[Transaction], LoginRequired):
         },
         'amount': {
             'is_price': True,
-            'class': 'text-right',
+            'class': 'text-end',
             'width': '6rem',
         },
         'account': {

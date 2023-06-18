@@ -44,8 +44,8 @@ und <b>{{person.by_count.long_not_seen}}</b> waren seit über einem Jahr nicht m
   <tr>
     <th>{{ booking.labels|get_item:stat.type }}</th>
     <td class="text-center">{{ stat.count }}</td>
-    <td class="text-right">{{ stat.sum|divide:stat.count|floatformat:1 }} Min.</td>
-    <td class="text-right">{{ stat.sum }} Min.</td>
+    <td class="text-end">{{ stat.sum|divide:stat.count|floatformat:1 }} Min.</td>
+    <td class="text-end">{{ stat.sum }} Min.</td>
   </tr>
   {% endfor %}
 </table>

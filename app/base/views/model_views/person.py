@@ -129,7 +129,7 @@ class PersonDetailView(PersonOptions, ModelDetailView):
                 },
                 'amount': {
                     'is_price': True,
-                    'class': 'text-right',
+                    'class': 'text-end',
                 },
             },
         }

@@ -4,19 +4,17 @@
   {% if user.current_checkin %}
     <div id="checkin-timer" class="text-green mb-3" data-since="{{ user.current_checkin.begin_time|date:'r' }}">0h 0min 0s</div>
     <div class="checkin-title mb-3"><i class="fas fa-circle text-green"></i> {{ user.first_name }} ist in der Werkstatt.</div>
-    <a class="btn btn-primary btn-block" href="{% url 'toggle-checkin' user.id %}?next={{ request.path }}">{{ user.first_name }} auschecken</a>
+    <a class="btn btn-primary w-100" href="{% url 'toggle-checkin' user.id %}?next={{ request.path }}">{{ user.first_name }} auschecken</a>
   {% else %}
     <div class="checkin-title mb-3"><i class="fas fa-circle text-red"></i> {{ user.first_name }} ist zuhause.</div>
     <form method="GET" action="{% url 'toggle-checkin' user.id %}">
-      <div class="form-group">
-        <label for="plan-select">Tarif:</label>
-        <select class="custom-select mb-2" id="plan-select" name="plan">
-          <option value="basic" selected>BASIC</option>
-          <option value="plus">PLUS</option>
-        </select>
-        <input type="hidden" name="next" value="{{ request.path }}">
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">{{ user.first_name }} einchecken</button>
+      <label for="plan-select" class="form-label">Tarif:</label>
+      <select class="form-select mt-2 mb-4" id="plan-select" name="plan">
+        <option value="basic" selected>BASIC</option>
+        <option value="plus">PLUS</option>
+      </select>
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <button type="submit" class="btn btn-primary w-100">{{ user.first_name }} einchecken</button>
     </form>
   {% endif %}
 </div>

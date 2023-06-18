@@ -16,9 +16,9 @@
         <div class="mb-3">
           <h6 class="d-inline-block">Attribute:</h6>
           {% for attr in object.attributes|dictsort:2 %}
-          <a class="badge border1" href="{% url 'trait-mapping:detail' attr.0 %}">{{ attr.2 }}</a>
+          <a class="badge text-primary border1" href="{% url 'trait-mapping:detail' attr.0 %}">{{ attr.2 }}</a>
           {% endfor %}
-          <a class="badge badge-secondary" href="{% url 'trait-mapping:create' %}{{ back_query }}&user={{ object.pk }}" title="Attribut hinzufügen"><i class="fas fa-plus"></i></a>
+          <a class="badge bg-secondary" href="{% url 'trait-mapping:create' %}{{ back_query }}&user={{ object.pk }}" title="Attribut hinzufügen"><i class="fas fa-plus"></i></a>
         </div>
 
         {% include 'widgets/alerts.html' %}
@@ -57,13 +57,11 @@
           </div>
           <form method="get" action="{% url 'transaction:create' %}" onsubmit>
             <div class="input-group">
-              <input name="amount" class="form-control text-right" type="number" min="0" step="0.5" value="{{ object.account.balance|invert|min:object.account.balance|default:10|floatformat:'2u' }}">
-              <div class="input-group-append">
-                <span class="input-group-text">€</span>
-              </div>
+              <input name="amount" class="form-control text-end" type="number" min="0" step="0.5" value="{{ object.account.balance|invert|min:object.account.balance|default:10|floatformat:'2u' }}">
+              <span class="input-group-text">€</span>
             </div>
             <input type="hidden" name="account" value="{{ object.account.pk }}">
-            <div class="btn-group btn-block mt-2">
+            <div class="btn-group mt-2 w-100">
               <button name="_type" class="btn btn-outline-success" value="deposit-plus">Einzahlen</button>
               <button name="_type" class="btn btn-outline-danger" value="deposit-minus">Auszahlen</button>
             </div>
