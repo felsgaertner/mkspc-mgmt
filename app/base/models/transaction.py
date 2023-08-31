@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_delete, pre_save
+from django.dispatch.dispatcher import receiver
 from django.urls import reverse
 
 from app.base.forms.fields import CurrencyField, DateTimeField
@@ -35,20 +37,6 @@ class Transaction(models.Model):
     def __str__(self):
         return f'Transaktion über {self.amount}€ von {self.account}'
 
-    def save(self, *args, **kwargs):
-        if self._state.adding:
-            self.time_stamp = datetime_now()
-            self.account.update_balance(self.amount)
-        elif self.pk:  # basically an "else", but just to be sure
-            prev = Transaction.objects.get(pk=self.pk)
-            self.account.update_balance(self.amount - prev.amount)
-
-        return super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        self.account.update_balance(-self.amount)
-        return super().delete(*args, **kwargs)
-
     @staticmethod
     def upsertFromBooking(booking: 'Booking'):
         amount = booking.calculated_price
@@ -72,3 +60,20 @@ class Transaction(models.Model):
                 description=description,
                 booking=booking,
             )
+
+
+# Signals
+
+@receiver(pre_delete, sender=Transaction, dispatch_uid='transaction_pre_del')
+def transaction_pre_delete(sender, instance: Transaction, **kwargs):
+    instance.account.update_balance(-instance.amount)
+
+
+@receiver(pre_save, sender=Transaction, dispatch_uid='transaction_pre_save')
+def transaction_pre_save(sender, instance: Transaction, **kwargs):
+    if instance._state.adding:
+        instance.time_stamp = datetime_now()
+        instance.account.update_balance(instance.amount)
+    elif instance.pk:  # basically an "else", but just to be sure
+        prev = Transaction.objects.get(pk=instance.pk)
+        instance.account.update_balance(instance.amount - prev.amount)
