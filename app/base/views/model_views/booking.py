@@ -20,7 +20,7 @@ class BookingOptions(ViewOptions[Booking], LoginRequired):
         'delete': 'booking:delete'
     }
     list_filter = {'user': 'user__pk'}
-    list_columns = ['begin_time', 'end_time', 'user', 'type']
+    list_columns = ['begin_time', 'end_time', 'duration', 'user', 'type']
     list_render = {
         'begin_time': {
             'date_format': 'D. d.m.y, H:i',
@@ -29,6 +29,9 @@ class BookingOptions(ViewOptions[Booking], LoginRequired):
         'end_time': {
             'date_format': 'H:i',
             'width': '4rem',
+        },
+        'duration': {
+            'verbose_name': 'Dauer',
         },
     }
 
