@@ -31,7 +31,8 @@ def query_url(context: dict, **kwargs: dict) -> str:
                 del query[k]
         else:
             query[k] = v
-    return '?' + query.urlencode()  # type: ignore
+    query_str = query.urlencode()  # type: ignore
+    return ('?' + query_str) if query_str else ''
 
 
 @register.simple_tag(takes_context=True)

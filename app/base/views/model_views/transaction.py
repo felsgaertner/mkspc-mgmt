@@ -62,7 +62,7 @@ class TransactionCreateView(TransactionOptions, ModelCreateView):
         else:
             desc = self.request.GET.get('description')
 
-        initial['account'] = self.request.GET.get('account') or None
+        initial['account'] = self.request.GET.get('user') or None
         initial['amount'] = amount
         initial['description'] = desc or None
         return initial

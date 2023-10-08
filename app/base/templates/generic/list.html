@@ -16,7 +16,7 @@
 
 {% block toolbar_right %}
   {% if views.create %}
-  <a class="btn btn-primary" href="{% url views.create %}">
+  <a class="btn btn-primary" href="{% url views.create %}{% query_url %}">
     <i class="fas fa-plus"></i> {{ model_verbose_name }} hinzufügen</a>
   {% endif %}
 {% endblock %}

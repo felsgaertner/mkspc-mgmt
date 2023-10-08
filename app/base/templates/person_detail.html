@@ -60,7 +60,7 @@
               <input name="amount" class="form-control text-end" type="number" min="0" step="0.5" value="{{ object.account.balance|invert|min:object.account.balance|default:10|floatformat:'2u' }}">
               <span class="input-group-text">€</span>
             </div>
-            <input type="hidden" name="account" value="{{ object.account.pk }}">
+            <input type="hidden" name="user" value="{{ object.account.pk }}">
             <div class="btn-group mt-2 w-100">
               <button name="_type" class="btn btn-outline-success" value="deposit-plus">Einzahlen</button>
               <button name="_type" class="btn btn-outline-danger" value="deposit-minus">Auszahlen</button>
