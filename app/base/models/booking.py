@@ -73,6 +73,17 @@ class Booking(models.Model):
         return None
 
     @property
+    def human_duration(self) -> 'str|None':
+        total = self.duration
+        if total is None:
+            return None
+        if total > 1440:
+            return f'> {total // 1440}T'
+        min = total % 60
+        hour = (total - min) // 60
+        return f'{hour}:{min:02d}'
+
+    @property
     def calculated_price(self):
         traits = self.user.traits_at_date(self.begin_time).values_list('trait')
         traits = set(x[0] for x in traits)

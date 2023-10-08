@@ -87,7 +87,7 @@ class PersonDetailView(PersonOptions, ModelDetailView):
                 'update': 'booking:update',
                 'delete': 'booking:delete'
             },
-            'columns': ['begin_time', 'end_time', 'duration', 'type'],
+            'columns': ['begin_time', 'end_time', 'human_duration', 'type'],
             'render': {
                 'begin_time': {
                     'date_format': 'D. d.m.y, H:i',
@@ -97,7 +97,7 @@ class PersonDetailView(PersonOptions, ModelDetailView):
                     'date_format': 'H:i',
                     'width': '4rem',
                 },
-                'duration': {
+                'human_duration': {
                     'verbose_name': 'Dauer',
                 },
             }
