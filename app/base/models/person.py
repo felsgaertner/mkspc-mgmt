@@ -86,6 +86,12 @@ class Person(models.Model):
             'pk', 'trait__key', 'trait__label')
 
     @property
+    def upcoming_attributes(self):
+        today = datetime.now()
+        return self.traits.filter(Q(valid_from__gt=today)).values_list(
+            'pk', 'trait__key', 'trait__label', 'valid_from')
+
+    @property
     def current_checkin(self):
         return Booking.currently_open_checkin(self)
 

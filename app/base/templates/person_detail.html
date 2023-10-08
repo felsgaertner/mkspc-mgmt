@@ -18,6 +18,10 @@
           {% for attr in object.attributes|dictsort:2 %}
           <a class="badge text-primary border1" href="{% url 'trait-mapping:detail' attr.0 %}">{{ attr.2 }}</a>
           {% endfor %}
+          {% for attr in object.upcoming_attributes|dictsort:3 %}
+          <span class="small text-secondary">, ab {{ attr.3|date:'d.m.' }}:</span>
+          <a class="badge text-primary border1d" href="{% url 'trait-mapping:detail' attr.0 %}">{{ attr.2 }}</a>
+          {% endfor %}
           <a class="badge bg-secondary" href="{% url 'trait-mapping:create' %}{{ back_query_w_user }}" title="Attribut hinzufügen"><i class="fas fa-plus"></i></a>
           <a class="small text-secondary" href="{% url 'trait-mapping:list' %}{{ back_query_w_user }}">(alle anzeigen)</a>
         </div>
