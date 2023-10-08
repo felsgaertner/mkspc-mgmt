@@ -28,7 +28,7 @@
     {% endif %}
     <tbody>
     {% for object in objects %}
-      <tr data-pk="{{ object.pk }}">
+      <tr data-pk="{% if views.detail_pk %}{{ object|format:views.detail_pk }}{% else %}{{ object.pk }}{% endif %}">
         {% for column in columns %}
           {% with X=object|field_value:column.name %}
             <td class="{{ X|col_render_class:column.render_options }}">

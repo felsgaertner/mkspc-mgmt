@@ -14,7 +14,8 @@ class BookingOptions(ViewOptions[Booking], LoginRequired):
     icon = 'clock'
     views = {
         'list': 'booking:list',
-        'detail': 'booking:detail',
+        'detail': 'person:detail',
+        'detail_pk': '{.user.pk}',
         'create': 'booking:create',
         'update': 'booking:update',
         'delete': 'booking:delete'
