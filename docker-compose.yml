@@ -24,8 +24,9 @@ services:
       DEBUG: $DEBUG
     volumes:
       - django-static:/var/www/html/static
-      - ./data:/django_project/data:rw
+      - owba-data:/django_project/data:rw
     restart: unless-stopped
 
 volumes:
   django-static:
+  owba-data:
